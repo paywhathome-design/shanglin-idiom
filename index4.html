@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雙溪區上林國小・上林成語小鎮（Google 試算表雲端正式版）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-demo-support="true" data-cloud-edition="true">
+  <!-- 藍紫色軟萌系背景裝飾 -->
+  <div class="sky-backdrop" aria-hidden="true">
+    <div class="cloud-blob cloud-1"></div>
+    <div class="cloud-blob cloud-2"></div>
+    <div class="cloud-blob cloud-3"></div>
+    <div class="sparkle-dot sp-1">✦</div>
+    <div class="sparkle-dot sp-2">✧</div>
+    <div class="sparkle-dot sp-3">✦</div>
+    <div class="sparkle-dot sp-4">★</div>
+  </div>
+
+  <!-- 頂部導覽列與全校即時連線狀態（含雙溪區上林國小校名與半透明紀念合照底圖） -->
+  <header class="top-header" id="topHeader">
+    <div class="header-photo-bg" aria-hidden="true"></div>
+    <div class="header-photo-overlay" aria-hidden="true"></div>
+    <div class="header-inner">
+      <div class="brand-group" id="brandHomeBtn" role="button" tabindex="0">
+        <div class="school-emblem-wrap" title="新北市雙溪區上林國小校徽">
+          <img src="assets/shanglin-emblem.png" alt="雙溪區上林國小校徽" class="school-emblem-img">
+        </div>
+        <div class="brand-titles">
+          <div class="school-brand-row">
+            <span class="school-name-badge">雙溪區上林國小</span>
+            <h1 class="brand-name">上林成語小鎮</h1>
+          </div>
+          <p class="brand-tagline">每日 5 分鐘・全校即時成語打卡樂園</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="live-status-pill" id="liveStatusPill" title="全校即時連線狀態">
+          <span class="pulse-dot"></span>
+          <span id="liveStatusText">全校即時連線中</span>
+        </div>
+
+        <button type="button" class="btn btn-soft-icon" id="soundToggleBtn" title="切換音效">
+          🔊 音效開
+        </button>
+
+        <div class="user-chip hidden" id="userChip">
+          <span class="user-chip-badge" id="userChipBadge"></span>
+          <span class="user-chip-name" id="userChipName"></span>
+          <button type="button" class="btn btn-outline-sm hidden" id="goTeacherPortalBtn">👩‍🏫 教師端登入</button>
+          <button type="button" class="btn btn-outline-sm" id="logoutBtn">切換帳號</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全校即時打卡動態播報條 -->
+    <div class="live-ticker-bar hidden" id="liveTickerBar">
+      <span class="ticker-tag">即時快報</span>
+      <div class="ticker-content" id="liveTickerText">正在連線至全校打卡伺服器...</div>
+    </div>
+  </header>
+
+  <!-- 主內容區 -->
+  <main class="main-container" id="mainContainer">
+
+    <!-- ==================== 登入與身分選擇畫面 ==================== -->
+    <section class="auth-section" id="authView">
+      <div class="auth-hero-grid">
+        <!-- 左側：可愛吉祥物與雙重數位獎勵介紹 -->
+        <div class="auth-welcome-card glass-card">
+          <div class="mascot-stage" id="loginMascotSlot"></div>
+          <div class="welcome-copy">
+            <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;">
+              <span class="pill-tag pill-purple">藍紫夢幻語文樂園</span>
+              <span class="pill-tag pill-blue">📚 578+ 成語・30 動畫・45 典故</span>
+              <span class="pill-tag pill-mint">☁️ 雲端跨裝置累積紀錄</span>
+            </div>
+            <h2>歡迎來到上林成語小鎮！</h2>
+            <p class="pretty-paragraph">
+              每天只要花 <strong>3～5 分鐘</strong>，依據低、中、高年段語文能力完成專屬成語任務，
+              就能和全校同學即時連線集星打卡，一起解鎖超萌數位徽章與班級榮譽大獎！
+            </p>
+          </div>
+
+          <div class="reward-preview-grid">
+            <div class="reward-mini-card">
+              <div class="reward-mini-icon">🎓</div>
+              <div>
+                <h3>第一獎・七階成語榮耀稱號</h3>
+                <p class="pretty-paragraph">每連續打卡滿 <strong>15 天</strong> 自動晉升下一階：小童生 → 小秀才 → 小舉人 → 小貢士 → 小進士 → 小狀元 → 大宗師！</p>
+              </div>
+            </div>
+            <div class="reward-mini-card">
+              <div class="reward-mini-icon">🏆</div>
+              <div>
+                <h3>第二獎・數位語文領航班</h3>
+                <p class="pretty-paragraph">全班每日開機打卡率達 <strong>90% 以上</strong>，立即閃耀金色光芒並獲頒「數位語文領航班」獎！</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 校內即時連線小看板 -->
+          <div class="mini-campus-pulse" id="loginCampusPulse">
+            <div class="pulse-stat">
+              <span class="pulse-num" id="loginSchoolRate">--%</span>
+              <span class="pulse-label">全校今日打卡率</span>
+            </div>
+            <div class="pulse-stat">
+              <span class="pulse-num" id="loginLeaderCount">-- 班</span>
+              <span class="pulse-label">數位語文領航班</span>
+            </div>
+            <div class="pulse-stat">
+              <span class="pulse-num" id="loginScholarCount">-- 位</span>
+              <span class="pulse-label">獲獎榮譽稱號</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右側：身分選擇登入表單 -->
+        <div class="auth-form-card glass-card">
+          <div class="auth-mode-tabs" role="tablist">
+            <button type="button" class="tab-btn active" id="tabStudentMode" role="tab" aria-selected="true">
+              🎒 學生端登入
+            </button>
+            <button type="button" class="tab-btn" id="tabStaffMode" role="tab" aria-selected="false">
+              👩‍🏫 教師與管理者登入
+            </button>
+          </div>
+
+          <!-- 學生登入表單（點選班級與自己姓名進入，不開放隨意切換他人帳號） -->
+          <form id="studentLoginForm" class="login-form">
+            <div class="form-intro">
+              <h3>小朋友請點選班級與自己的名字</h3>
+              <p class="pretty-paragraph">選擇自己的名字後按下確認即可進入今日專屬隨機成語任務！為維護打卡公平，進入後將鎖定本人帳號喔！</p>
+            </div>
+
+            <div class="form-field">
+              <label>第一步：點選你的班級</label>
+              <div class="roster-class-tabs" id="rosterClassTabs"></div>
+            </div>
+
+            <div class="form-field">
+              <label>第二步：點選自己的名字</label>
+              <div class="student-name-grid" id="studentNameGrid"></div>
+            </div>
+
+            <div class="selected-student-banner hidden" id="selectedStudentBanner">
+              <span>🙋 已選擇：</span>
+              <strong id="selectedStudentText"></strong>
+            </div>
+
+            <div class="form-error hidden" id="studentLoginError"></div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-full" id="studentConfirmLoginBtn" disabled>
+              ✨ 請先點選自己的名字
+            </button>
+          </form>
+
+          <!-- 教師/管理者登入表單 -->
+          <form id="staffLoginForm" class="login-form hidden">
+            <div class="form-intro">
+              <h3>請選擇您的校內管理或教師身分</h3>
+              <p class="pretty-paragraph">登入後可即時檢視全校各班打卡率、頒獎榮譽榜、審核微寫作並匯出學習報表。</p>
+            </div>
+
+            <div class="form-field">
+              <label>選擇登入身分</label>
+              <div class="staff-role-grid" id="staffRoleGrid">
+                <button type="button" class="role-pill active" data-role="管理者校長">👑 管理者校長</button>
+                <button type="button" class="role-pill" data-role="管理者閱推教師">📚 管理者閱推教師</button>
+                <button type="button" class="role-pill" data-role="管理者教務處主任">🏫 管理者教務處主任</button>
+                <button type="button" class="role-pill" data-role="管理者教學組長">📋 管理者教學組長</button>
+                <button type="button" class="role-pill" data-role="教師">🍎 教師</button>
+              </div>
+            </div>
+
+            <div class="form-field hidden" id="teacherClassField">
+              <label for="teacherClassSelect">任教班級</label>
+              <select id="teacherClassSelect">
+                <option value="1年甲班">1年甲班（低年段）</option>
+                <option value="2年甲班">2年甲班（低年段）</option>
+                <option value="3年甲班">3年甲班（中年段）</option>
+                <option value="4年甲班">4年甲班（中年段）</option>
+                <option value="5年甲班">5年甲班（高年段）</option>
+                <option value="6年甲班">6年甲班（高年段）</option>
+              </select>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-field">
+                <label for="staffNameInput">師長姓名</label>
+                <input type="text" id="staffNameInput" placeholder="例如：洪珮華校長" value="洪珮華校長" required>
+              </div>
+              <div class="form-field">
+                <label for="staffPassInput">校內通行碼</label>
+                <input type="password" id="staffPassInput" placeholder="預設：school2026" value="school2026" required>
+              </div>
+            </div>
+
+            <div class="form-error hidden" id="staffLoginError"></div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+              🚀 進入全校語文管理戰情室
+            </button>
+            <p class="helper-note">💡 示範用校內通行碼為 <code>school2026</code>，點選上方身分按鍵將自動帶入示範師長姓名。</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 學生學習主介面 ==================== -->
+    <section class="student-app hidden" id="studentView">
+      <!-- 管理者教學示範專用控制條（僅虛擬示範學生模式顯示，不計入全校統計） -->
+      <div class="demo-mode-bar glass-card hidden" id="demoModeBar">
+        <div class="demo-mode-info">
+          <span class="pill-tag pill-gold">🎬 管理者教學示範模式</span>
+          <span style="font-size:13.5px;font-weight:700;color:var(--ink-dark);">虛擬示範學生作答絕不計入全校、班級累計與報表！</span>
+        </div>
+        <div class="demo-mode-actions">
+          <button type="button" class="btn btn-chip" data-demo-band="low">🌱 低年級・小雲朵</button>
+          <button type="button" class="btn btn-chip" data-demo-band="mid">🌤️ 中年級・小太陽</button>
+          <button type="button" class="btn btn-chip" data-demo-band="high">🌟 高年級・小星語</button>
+          <button type="button" class="btn btn-secondary" id="btnResetDemoProgress">🔄 重設示範作答</button>
+          <button type="button" class="btn btn-primary" id="btnExitDemoToAdmin">🔙 返回教師戰情室</button>
+        </div>
+      </div>
+
+      <!-- 學生個人總覽橫幅 -->
+      <div class="student-banner glass-card">
+        <div class="student-banner-left">
+          <div class="student-mascot-mini" id="studentMascotMini"></div>
+          <div class="student-greeting">
+            <div class="greeting-badges">
+              <span class="pill-tag pill-blue" id="stuBandPill">低年段</span>
+              <span class="pill-tag pill-purple" id="stuClassSeatPill">1年1班 1號</span>
+              <span class="pill-tag pill-mint hidden" id="stuDonePill">✔ 今日已打卡</span>
+            </div>
+            <h2 id="stuGreetingTitle">哈囉，王小芽！準備好今天的 5 分鐘成語冒險了嗎？</h2>
+            <p class="pretty-paragraph" id="stuGreetingSub">完成以下小任務，立刻為自己累積連續打卡天數，也幫全班衝刺 90% 領航班！</p>
+          </div>
+        </div>
+
+        <div class="student-banner-stats">
+          <div class="stat-bubble stat-purple">
+            <span class="stat-label" id="stuRankLabel">目前稱號</span>
+            <span class="stat-value"><strong id="stuStreakNum">0</strong> 天・<span id="stuRankTitleShort">小新手</span></span>
+          </div>
+          <div class="stat-bubble stat-blue">
+            <span class="stat-label">本班今日打卡率</span>
+            <span class="stat-value"><strong id="stuClassRateNum">0%</strong></span>
+          </div>
+          <div class="stat-bubble stat-gold">
+            <span class="stat-label">今日建議時間</span>
+            <span class="stat-value" id="cozyTimerDisplay">⏱ 05:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 學生主導覽分頁（按鍵絕不換行） -->
+      <nav class="sub-nav-bar" aria-label="學生功能切換">
+        <button type="button" class="nav-pill active" data-stu-tab="tasks">🎯 今日 5 分鐘任務</button>
+        <button type="button" class="nav-pill" data-stu-tab="bank500">🎲 500+ 成語隨機刷題</button>
+        <button type="button" class="nav-pill" data-stu-tab="rewards">🎓 七階 15 天晉升徽章牆</button>
+        <button type="button" class="nav-pill" data-stu-tab="campus">🏆 全校即時領航班</button>
+      </nav>
+
+      <!-- 分頁一：今日任務工作區 -->
+      <div class="stu-tab-panel" id="stuTabTasks">
+        <div id="dailyTaskWorkspace"></div>
+      </div>
+
+      <!-- 分頁一之二：500+ 成語隨機刷題寶庫 -->
+      <div class="stu-tab-panel hidden" id="stuTabBank500">
+        <div id="studentBank500Panel"></div>
+      </div>
+
+      <!-- 分頁二：第一獎・七階 15 天晉升數位徽章牆 -->
+      <div class="stu-tab-panel hidden" id="stuTabRewards">
+        <div id="studentRewardsPanel"></div>
+      </div>
+
+      <!-- 分頁三：第二獎・全校即時連線班級領航班 -->
+      <div class="stu-tab-panel hidden" id="stuTabCampus">
+        <div id="studentCampusPanel"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 教師與管理者後台戰情室 ==================== -->
+    <section class="admin-app hidden" id="adminView">
+      <div id="adminWorkspace"></div>
+    </section>
+
+  </main>
+
+  <!-- 慶祝頒獎與徽章證書彈窗 -->
+  <div class="modal-overlay hidden" id="celebrationModal" role="dialog" aria-modal="true">
+    <div class="modal-card glass-card">
+      <div class="confetti-burst" id="confettiBurst"></div>
+      <div class="modal-body" id="celebrationModalBody"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="closeCelebrationBtn">🎉 太棒了，收下榮耀！</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 教師與管理者快捷進入驗證彈窗（供師長從學生端直接進入教師管理後台，不開放學生切換他人帳號） -->
+  <div class="modal-overlay hidden" id="staffSwitchModal" role="dialog" aria-modal="true">
+    <div class="modal-card glass-card" style="text-align:left;max-width:520px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">
+        <h3 style="font-size:20px;">👩‍🏫 進入教師與管理者戰情室</h3>
+        <button type="button" class="btn btn-outline-sm" id="closeStaffModalBtn">✕ 取消</button>
+      </div>
+      <p class="pretty-paragraph" style="font-size:13.5px;margin-bottom:14px;">
+        請選擇您的師長身分並輸入校內通行碼（預設 <code>school2026</code>），驗證後即可直接進入教師管理後台。
+      </p>
+      <form id="modalStaffLoginForm" class="login-form">
+        <div class="form-field">
+          <label>選擇登入身分</label>
+          <div class="staff-role-grid" id="modalStaffRoleGrid">
+            <button type="button" class="role-pill active" data-modal-role="管理者校長">👑 管理者校長</button>
+            <button type="button" class="role-pill" data-modal-role="管理者閱推教師">📚 管理者閱推教師</button>
+            <button type="button" class="role-pill" data-modal-role="管理者教務處主任">🏫 管理者教務處主任</button>
+            <button type="button" class="role-pill" data-modal-role="管理者教學組長">📋 管理者教學組長</button>
+            <button type="button" class="role-pill" data-modal-role="教師">🍎 教師</button>
+          </div>
+        </div>
+        <div class="form-field hidden" id="modalTeacherClassField">
+          <label for="modalTeacherClassSelect">任教班級</label>
+          <select id="modalTeacherClassSelect">
+            <option value="1年甲班">1年甲班（低年段）</option>
+            <option value="2年甲班">2年甲班（低年段）</option>
+            <option value="3年甲班">3年甲班（中年段）</option>
+            <option value="4年甲班">4年甲班（中年段）</option>
+            <option value="5年甲班">5年甲班（高年段）</option>
+            <option value="6年甲班">6年甲班（高年段）</option>
+          </select>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="modalStaffNameInput">師長姓名</label>
+            <input type="text" id="modalStaffNameInput" value="洪珮華校長" required>
+          </div>
+          <div class="form-field">
+            <label for="modalStaffPassInput">校內通行碼</label>
+            <input type="password" id="modalStaffPassInput" value="school2026" required>
+          </div>
+        </div>
+        <div class="form-error hidden" id="modalStaffLoginError"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:4px;">
+          <button type="button" class="btn btn-secondary" id="btnBackToHomeStaff">🏠 回到首頁教師登入</button>
+          <button type="submit" class="btn btn-primary">🚀 驗證進入教師端</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 輕量提示 Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- 頁尾與跨裝置連線提示 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>★ 雙溪區上林國小・上林成語小鎮｜國小低・中・高年段每日 5 分鐘成語互動學習全端系統</span>
+      <span id="footerLanHint">跨裝置連線支援中</span>
+    </div>
+  </footer>
+
+  <script src="js/cloud-config.js"></script>
+  <script src="js/local-fallback.js"></script>
+  <script src="js/idiom-bank-500.js"></script>
+  <script src="js/low-animations-30.js"></script>
+  <script src="js/high-stories-45.js"></script>
+  <script src="js/daily-content-pack.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/illustrations.js"></script>
+  <script src="js/student-tasks.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
